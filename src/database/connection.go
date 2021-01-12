@@ -41,13 +41,16 @@ func GetConnection() Data {
 
 	//migrations of the schemas
 	CreateTables(data.Db)
+
+	//set the value of the db in Task module
+	models.InstanceDatabase(data.Db)
 	return data
 }
 
-//GetConnection is a function for the connection of the db
-func GetDatabase() (*gorm.DB, bool) {
+//GetDatabase is a function for the connection of the db
+func GetDatabase() *gorm.DB {
 	db := database
-	return db, true
+	return db
 }
 
 func CreateTables(db *gorm.DB) {
@@ -58,4 +61,5 @@ func CreateTables(db *gorm.DB) {
 		return
 	}
 	return
+
 }

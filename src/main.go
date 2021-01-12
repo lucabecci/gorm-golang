@@ -9,6 +9,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"github.com/lucabecci/gorm-golang/src/controllers"
 	"github.com/lucabecci/gorm-golang/src/database"
 )
 
@@ -35,8 +36,9 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 		Handler:      r,
 	}
-	// taskRouter := r.PathPrefix("/api/task").Subrouter()
-	// taskRouter.HandleFunc('/', )
+	r.HandleFunc("/api/task", controllers.CreateTask).Methods("POST")
+	r.HandleFunc("/api/task/{id}", controllers.GetTask).Methods("GET")
+
 	fmt.Println("Server running at port:", port)
 	err := srv.ListenAndServe()
 	if err != nil {
