@@ -38,6 +38,7 @@ func InsertTask(title string, description string, priority string) (Task, bool) 
 	}, true
 }
 
+//GetTask is a function for get one task
 func GetTask(id string) (Task, bool) {
 	var task Task
 
@@ -48,5 +49,59 @@ func GetTask(id string) (Task, bool) {
 		return Task{}, false
 	}
 
+	return task, true
+}
+
+//GetTasks is a func for get all tasks
+func GetTasks() ([]Task, bool) {
+	var tasks []Task
+
+	rows := database.Find(&tasks)
+
+	rows.Scan(&tasks)
+
+	if len(tasks) < 1 {
+		return []Task{}, false
+	}
+
+	return tasks, true
+}
+
+//UpdateTask is a func for update task by id
+func UpdateTask(id string, title string, description string, priority string) (Task, bool) {
+	var task Task
+
+	oldTask := database.Find(&task, id)
+	oldTask.Scan(&task)
+
+	if task.ID == 0 {
+		return Task{ID: 0}, false
+	}
+
+	task.Title = title
+	task.Description = description
+	task.Priority = priority
+
+	result := database.Save(&task)
+
+	if result.RowsAffected < 1 {
+		return Task{}, false
+	}
+
+	return task, true
+}
+
+//DeleteTask is for delete a task by id
+func DeleteTask(id string) (Task, bool) {
+	var task Task
+
+	result := database.Find(&task, id)
+	result.Scan(&task)
+
+	if task.ID == 0 {
+		return Task{}, false
+	}
+
+	database.Delete(&task, id)
 	return task, true
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/lucabecci/gorm-golang/src/models"
 )
 
+//Data is a struct for handling errors and configs
 type Data struct {
 	Db      *gorm.DB
 	Success bool
@@ -53,6 +54,7 @@ func GetDatabase() *gorm.DB {
 	return db
 }
 
+//CreateTables is a func for the Migration of the tables in gorm
 func CreateTables(db *gorm.DB) {
 	exists := db.Migrator().HasTable(&models.Task{})
 	if exists == false {

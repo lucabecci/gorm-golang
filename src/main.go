@@ -38,6 +38,9 @@ func main() {
 	}
 	r.HandleFunc("/api/task", controllers.CreateTask).Methods("POST")
 	r.HandleFunc("/api/task/{id}", controllers.GetTask).Methods("GET")
+	r.HandleFunc("/api/task", controllers.GetTasks).Methods("GET")
+	r.HandleFunc("/api/task/{id}", controllers.UpdateTask).Methods("PUT")
+	r.HandleFunc("/api/task/{id}", controllers.DeleteTask).Methods("DELETE")
 
 	fmt.Println("Server running at port:", port)
 	err := srv.ListenAndServe()
